@@ -71,7 +71,7 @@ void CScene::DeleteObject(OBJ_LAYER InLayer, CObject* InObject)
 	}
 }
 
-const std::vector<CObject*>& CScene::Get_Object(OBJ_LAYER InLayer)
+const std::vector<CObject*>& CScene::Get_Object(OBJ_LAYER InLayer) const
 {
 	return OBJvector[(int)InLayer];
 }

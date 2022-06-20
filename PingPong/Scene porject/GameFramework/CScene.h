@@ -25,7 +25,7 @@ public:
 	void AddObject(OBJ_LAYER InLayer, CObject* InObject);
 	void DeleteObject(OBJ_LAYER InLayer, CObject* InObject);
 
-	const std::vector<CObject*>& Get_Object(OBJ_LAYER InLayer);
+	const std::vector<CObject*>& Get_Object(OBJ_LAYER InLayer) const;
 
 	const CollisionLayerInfo& GetCollisionLayer() {return CheckCollisionLayer;}
 

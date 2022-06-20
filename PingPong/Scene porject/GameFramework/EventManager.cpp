@@ -49,14 +49,14 @@ void CEventManager::Update(float InDeltaTime)
 					*((OBJ_LAYER*)eventInfo.Parameter),
 					((CObject*)eventInfo.Parameter2));
 
-				delete eventInfo.Parameter;
+				//delete eventInfo.Parameter;
 			break;
 			case EVENT_TYPE::DELETE_OBJECT:
 				CSceneManager::GetInstance()->DeleteObject(
 					*((OBJ_LAYER*)eventInfo.Parameter),
 					((CObject*)eventInfo.Parameter2));
 
-				delete eventInfo.Parameter;
+				//delete eventInfo.Parameter;
 			break;
 		}
 	}

@@ -35,6 +35,9 @@
     <Filter Include="Object\Block">
       <UniqueIdentifier>{947cb708-3336-45ac-9128-cdb1d0972c48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Bullet">
+      <UniqueIdentifier>{105b0954-4472-4643-8fa1-a1b41f3b70eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -103,6 +106,9 @@
     <ClInclude Include="Block.h">
       <Filter>Object\Block</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Object\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TimerManager.cpp">
@@ -152,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="Block.cpp">
       <Filter>Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Object\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,7 +23,9 @@ void CResourceManager::Init(HINSTANCE InHInst, HDC InHdc)
 	LoadTexture("PLAYER",L"Texture/UnBroken.bmp");
 	LoadTexture("BULLET", L"Texture/BubbleBobblePart2Sheet12.bmp");
 	LoadTexture("BLOCK", L"Texture/YellowBlock/YellowBlock_0.bmp");
-	LoadTexture("BACKGRUOND", L"Texture/graveyard (2).bmp");	
+	LoadTexture("BACKGRUOND", L"Texture/graveyard (2).bmp");
+	LoadTexture("BLOCK2", L"Texture/YellowBlock/YellowBlock_1.bmp");
+	LoadTexture("BLOCK1", L"Texture/YellowBlock/YellowBlock_2.bmp");
 }
 
 CTexture* CResourceManager::LoadTexture(const string& InName, const wstring& InFilePath)

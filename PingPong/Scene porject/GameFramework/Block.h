@@ -5,13 +5,14 @@ class Block :
 {
 private:
     int HP;
+    float mDelta;
 public:
     Block();
     Block(Vector2D InPosition, Vector2D InScale);
     ~Block();
 
     virtual void Update(float InDeltaTime) override;
-    virtual void Render(HDC InHdc) override;
+   virtual void Render(HDC InHdc) override;
     virtual void Collision(const CObject* InOtherObject) override;
 };
 

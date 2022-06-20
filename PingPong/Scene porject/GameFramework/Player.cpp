@@ -50,32 +50,6 @@ void CPlayer::Update(float InDeltaTime)
 
 		Position = position;
 	}
-
-	if (KEY_STATE(KEY::W) == KEY_STATE::HOLD)
-	{
-		Vector2D position = Position;
-		position.y -= SPEED * InDeltaTime;
-
-		if (position.y < 0)
-		{
-			position.y = 0;
-		}
-
-		Position = position;
-	}
-
-	if (KEY_STATE(KEY::S) == KEY_STATE::HOLD)
-	{
-		Vector2D position = Position;
-		position.y += SPEED * InDeltaTime;
-
-		if (position.y > 940)
-		{
-			position.y = 940;
-		}
-
-		Position = position;
-	}
 }
 
 void CPlayer::Collision(const CObject* InOtherObject)

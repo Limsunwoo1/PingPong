@@ -17,4 +17,4 @@ public: \
 #define MOUSE_POS CKeyManager::GetInstance()->GetMousePos();
 
 // 주석처리하면 충돌 사각형 안보임
-#define SHOW_COLLISION
+//#define SHOW_COLLISION

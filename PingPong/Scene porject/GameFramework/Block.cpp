@@ -1,7 +1,8 @@
 #include "Block.h"
 #include "ResourceManager.h"
 #include "CTexture.h"
-
+#include "EventManager.h"
+#include <iostream>
 Block::Block() : CObject(Vector2D{ 100, 100 }, Vector2D{ 50,50 })
 {
 	HP = 3;
@@ -20,19 +21,41 @@ Block::~Block()
 void Block::Update(float InDeltaTime)
 {
 	CObject::Update(InDeltaTime);
+	mDelta += InDeltaTime;
 
 	if (HP == 2)
-		CResourceManager::GetInstance()->LoadTexture("BLOCK", L"Texture/YellowBlock/YellowBlock_1.bmp");
+	{
+		CObject::SetTexture(CResourceManager::GetInstance()->FindTexture("BLOCK2"));
+		return;
+	}
 
 	if(HP == 1)
-		CResourceManager::GetInstance()->LoadTexture("BLOCK", L"Texture/YellowBlock/YellowBlock_2.bmp");
+	{
+		CObject::SetTexture(CResourceManager::GetInstance()->FindTexture("BLOCK1"));
+		return;
+	}
 }
 
 void Block::Collision(const CObject* InOtherObject)
 {
 	CObject::Collision(InOtherObject);
 
-	HP -= 1;
+	if (mDelta > 0.1f)
+	{
+		HP -= 1;
+		mDelta = 0;
+	}
+
+	if (HP <= 0)
+	{
+		EventInfo eventInfo;
+		eventInfo.Type = EVENT_TYPE::DELETE_OBJECT;
+		eventInfo.Parameter = new OBJ_LAYER(OBJ_LAYER::BLOCK);
+		eventInfo.Parameter2 = this;
+
+		CEventManager::GetInstance()->AddEvent(eventInfo);
+	}
+
 	/*EventInfo eventInfo;
 	eventInfo.Type = EVENT_TYPE::DELETE_OBJECT;
 	eventInfo.Parameter = new OBJ_LAYER(ObjLayer);
