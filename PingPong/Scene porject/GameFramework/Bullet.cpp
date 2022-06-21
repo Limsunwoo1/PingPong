@@ -8,12 +8,18 @@ CBullet::CBullet() : CObject(Vector2D{ 100, 100 }, Vector2D{ 50, 50 })
 {
 	mStart = false;
 	mPrveScale = Vector2D{ 50,50 };
+
+	mHigh	= Direction::NONE;
+	mWidth	= Direction::NONE;
 }
 
 CBullet::CBullet(Vector2D InPosition, Vector2D InScale) : CObject(Vector2D{ InPosition.x, InPosition.y }, Vector2D{ InScale.x, InScale.y })
 {
 	mStart = false;
 	mPrveScale = Vector2D{ InScale.x, InScale.y };
+
+	mHigh = Direction::NONE;
+	mWidth = Direction::NONE;
 }
 
 CBullet::~CBullet()
@@ -41,136 +47,176 @@ void CBullet::Update(float InDeletaTime)
 		mPrvePosition = Position;
 
 		Position.y -= SPEED * InDeletaTime;
-		if(KEY_STATE(KEY::D) == KEY_STATE::HOLD)
+		mHigh = Direction::NORTH;
+		if (KEY_STATE(KEY::D) == KEY_STATE::HOLD)
+		{
 			Position.x += SPEED * InDeletaTime;
+			mWidth = Direction::EAST;
+		}
 		if (KEY_STATE(KEY::A) == KEY_STATE::HOLD)
+		{
 			Position.x -= SPEED * InDeletaTime;
+			mWidth = Direction::WEST;
+		}
 	}
 
 	//이전위치와 대조하여 진행방향 결정
-	if (mPrvePosition.x < Position.x)
+	/*if (mPrvePosition.x < Position.x)
 		Position.x += SPEED * InDeletaTime;
 	if(mPrvePosition.x > Position.x)
 		Position.x -= SPEED * InDeletaTime;
 	if (mPrvePosition.y < Position.y)
 		Position.y += SPEED * InDeletaTime;
 	if (mPrvePosition.y > Position.y)
+		Position.y -= SPEED * InDeletaTime;*/
+
+	if (mHigh == Direction::NORTH)
+	{
 		Position.y -= SPEED * InDeletaTime;
+	}
+	else if (mHigh == Direction::SOUTH)
+	{
+		Position.y += SPEED * InDeletaTime;
+	}
+	else;
+
+	if (mWidth == Direction::EAST)
+	{
+		Position.x += SPEED * InDeletaTime;
+	}
+	else if (mWidth == Direction::WEST)
+	{
+		Position.x -= SPEED * InDeletaTime;
+	}
+	else;
 
 	//화면밖을 나가려는 경우
 	ScreenOut();
-
-	
 }
 
 void CBullet::Collision(const CObject* InOtherObject)
 {
 	CObject::Collision(InOtherObject);
-
-
-
-	if (InOtherObject->GetObjectLayer() == OBJ_LAYER::PLAYER)
-	{
-	if (KEY_STATE(KEY::D) == KEY_STATE::HOLD)
-		Position.x += SPEED * mDeleta;
-	if (KEY_STATE(KEY::A) == KEY_STATE::HOLD)
-		Position.x -= SPEED * mDeleta;
-
-	if (Position.x > InOtherObject->GetPosition().x)
-	{
-		mPrvePosition.x = Position.x;
-		Position.x += SPEED * mDeleta;
-	}
-	else
-	{
-		mPrvePosition.x = Position.x;
-		Position.x -= SPEED * mDeleta;
-	}
-
-	if (mPrvePosition.y < Position.y)
-	{
-		mPrvePosition.y = Position.y;
-		Position.y -= SPEED * mDeleta;
-	}
-	else
-	{
-		mPrvePosition.y = Position.y;
-		Position.y += SPEED * mDeleta;
-	}
-
-	return;
-	}
-
-	//Position.x += Position.x - mPrvePosition.x;
-	//Position.y += Position.y - mPrvePosition.y;
 	
-	//CheckCollision(this->GetPosition(), this->GetScale(), InOtherObject->GetPosition(), InOtherObject->GetScale());
+	if (Position.x - (Scale.x * 0.5f) < InOtherObject->GetPosition().x + (InOtherObject->GetScale().x * 0.5f))
+	{
+		if (Position.y - (Scale.y * 0.5f) < InOtherObject->GetPosition().y + (InOtherObject->GetScale().y * 0.5f))
+		{
+			float width = Position.x - (Scale.x * 0.5f) - InOtherObject->GetPosition().x + (InOtherObject->GetScale().x * 0.5f);
+			float High = Position.y - (Scale.y * 0.5f) - InOtherObject->GetPosition().y + (InOtherObject->GetScale().y * 0.5f);
 
-	if (Position.x < mPrvePosition.x)
-	{
-		mPrvePosition.x = Position.x;
-		Position.x -= SPEED * mDeleta;
+			if (High > width)
+			{
+				mWidth = Direction::EAST;
+				mHigh =	Direction::NORTH;
+			}
+			else
+			{
+				mWidth = Direction::WEST;
+				mHigh = Direction::SOUTH;
+			}
+		}
+		else if (Position.y + (Scale.y * 0.5f) > InOtherObject->GetPosition().y - (InOtherObject->GetScale().y * 0.5f))
+		{
+			float width = Position.x - (Scale.x * 0.5f) - InOtherObject->GetPosition().x + (InOtherObject->GetScale().x * 0.5f);
+			float High = Position.y + (Scale.y * 0.5f) - InOtherObject->GetPosition().y - (InOtherObject->GetScale().y * 0.5f);
+
+			if (High < width)
+			{
+				mWidth = Direction::EAST;
+				mHigh = Direction::SOUTH;
+			}
+			else
+			{
+				mWidth = Direction::WEST;
+				mHigh = Direction::NORTH;
+			}
+		}
 	}
-	else if(Position.x > mPrvePosition.x)
+	else if(Position.x + (Scale.x * 0.5f) > InOtherObject->GetPosition().x - (InOtherObject->GetScale().x * 0.5f))
 	{
-		mPrvePosition.x = Position.x;
-		Position.x += SPEED * mDeleta;
+		if (Position.y - (Scale.y * 0.5f) < InOtherObject->GetPosition().y + (InOtherObject->GetScale().y * 0.5f))
+		{
+			float width = Position.x + (Scale.x * 0.5f) - InOtherObject->GetPosition().x - (InOtherObject->GetScale().x * 0.5f);
+			float High = Position.y - (Scale.y * 0.5f) - InOtherObject->GetPosition().y + (InOtherObject->GetScale().y * 0.5f);
+
+			if (High < width)
+			{
+				mWidth = Direction::WEST;
+				mHigh = Direction::NORTH;
+			}
+			else
+			{
+				mWidth = Direction::EAST;
+				mHigh = Direction::SOUTH;
+			}
+		}
+		else if (Position.y + (Scale.y * 0.5f) > InOtherObject->GetPosition().y - (InOtherObject->GetScale().y * 0.5f))
+		{
+			float width = Position.x - (Scale.x * 0.5f) - InOtherObject->GetPosition().x + (InOtherObject->GetScale().x * 0.5f);
+			float High = Position.y + (Scale.y * 0.5f) - InOtherObject->GetPosition().y - (InOtherObject->GetScale().y * 0.5f);
+
+			if (High > width)
+			{
+				mWidth = Direction::EAST;
+				mHigh = Direction::SOUTH;
+			}
+			else
+			{
+				mWidth = Direction::WEST;
+				mHigh = Direction::NORTH;
+			}
+		}
 	}
 
-	if (mPrvePosition.y < Position.y)
-	{
-		mPrvePosition.y = Position.y;
-		Position.y -= SPEED * mDeleta;
-	}
-	else if(mPrvePosition.y > Position.y)
-	{
-		mPrvePosition.y = Position.y;
-		Position.y += SPEED * mDeleta;
-	}
+	//return;
+	//}
+
+	////Position.x += Position.x - mPrvePosition.x;
+	////Position.y += Position.y - mPrvePosition.y;
+	//
+	////CheckCollision(this->GetPosition(), this->GetScale(), InOtherObject->GetPosition(), InOtherObject->GetScale());
+
+	//if (Position.x < mPrvePosition.x)
+	//{
+	//	mPrvePosition.x = Position.x;
+	//	Position.x -= SPEED * mDeleta;
+	//}
+	//else if(Position.x > mPrvePosition.x)
+	//{
+	//	mPrvePosition.x = Position.x;
+	//	Position.x += SPEED * mDeleta;
+	//}
+
+	//if (mPrvePosition.y < Position.y)
+	//{
+	//	mPrvePosition.y = Position.y;
+	//	Position.y -= SPEED * mDeleta;
+	//}
+	//else if(mPrvePosition.y > Position.y)
+	//{
+	//	mPrvePosition.y = Position.y;
+	//	Position.y += SPEED * mDeleta;
+	//}
 }
 
 void CBullet::ScreenOut()
 {
 	if (Position.x <= 0)
 	{
-		mPrvePosition.x = Position.x;
-		Position.x += SPEED * mDeleta;
+		mWidth = Direction::EAST;
 	}
-	if (Position.x >= 980)
+	else if (Position.x >= 980)
 	{
-		mPrvePosition.x = Position.x;
-		Position.x -= SPEED * mDeleta;
+		mWidth = Direction::WEST;
 	}
+
 	if (Position.y <= 0)
 	{
-		mPrvePosition.y = Position.y;
-		Position.y += SPEED * mDeleta;
+		mHigh = Direction::SOUTH;
 	}
-	if (Position.y >= 660)
+	else if (Position.y >= 680)
 	{
-		mPrvePosition.y = Position.y;
-		Position.y -= SPEED * mDeleta;
+		mHigh = Direction::NORTH;
 	}
-}
-
-void CBullet::CheckCollision(Vector2D InPosition1, Vector2D InScale1, Vector2D InPosition2, Vector2D InScale2)
-{
-	/*if(InPosition1.x < mPrvePosition.x)
-	{
-		Position.x -= Position.x - mPrvePosition.x;
-	}
-	else if (InPosition1.x > mPrvePosition.x)
-	{
-		Position.x += Position.x - mPrvePosition.x;
-	}
-
-
-	if (InPosition1.y < mPrvePosition.y)
-	{
-		Position.y -= Position.y - mPrvePosition.y;
-	}
-	else if (InPosition1.y > mPrvePosition.y)
-	{
-		Position.y += Position.y - mPrvePosition.y;
-	}*/
 }
