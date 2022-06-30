@@ -3,6 +3,8 @@
 #include "CTexture.h"
 #include "EventManager.h"
 #include <iostream>
+#include <math.h>
+
 Block::Block() : CObject(Vector2D{ 100, 100 }, Vector2D{ 50,50 })
 {
 	HP = 3;
