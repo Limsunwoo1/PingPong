@@ -20,7 +20,7 @@ void CResourceManager::Init(HINSTANCE InHInst, HDC InHdc)
 	Hdc = InHdc;
 
 
-	LoadTexture("PLAYER",L"Texture/UnBroken.bmp");
+	LoadTexture("PLAYER",L"Texture/UnBroken_1.bmp");
 	LoadTexture("BULLET", L"Texture/BubbleBobblePart2Sheet12.bmp");
 	LoadTexture("BLOCK", L"Texture/YellowBlock/YellowBlock_0.bmp");
 	LoadTexture("BACKGRUOND", L"Texture/graveyard (2).bmp");

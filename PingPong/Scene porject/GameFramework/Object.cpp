@@ -1,6 +1,8 @@
 #include "Object.h"
 #include "CTexture.h"
 #include "Define.h"
+#include <math.h>
+#include "UtilMath.h"
 
 unsigned int CObject::Id = 100;
 
@@ -153,4 +155,17 @@ void CObject::Render(HDC InHdc)
 void CObject::Collision(const CObject* InOtherObject)
 {
 	CurCollision = true;
+}
+
+void CObject::SetOBJ_Angle()
+{
+	Vector2D OBj_Vector = CollisionScale;
+
+	float Angle = sqrt((OBj_Vector.x * OBj_Vector.x) + (OBj_Vector.y * OBj_Vector.y));
+
+	float cos = OBj_Vector.x / Angle;
+
+	float Radian = acos(cos);
+
+	Obj_Angle = UtilMath::ToDegree(Radian);
 }

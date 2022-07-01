@@ -4,6 +4,8 @@
 #include "ResourceManager.h"
 #include "EventManager.h"
 #include "CTexture.h"
+#include "UtilMath.h"
+#include <math.h>
 
 CPlayer::CPlayer() : CObject(Vector2D{ 100, 100 }, Vector2D{ 50, 50 })
 {

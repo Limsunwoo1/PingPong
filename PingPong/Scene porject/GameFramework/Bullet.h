@@ -14,6 +14,8 @@ private:
     
     Vector2D    Direcetion;
     Vector2D    CollisionDirection;
+
+    int         fps;
 public:
     CBullet();
     CBullet(Vector2D InPosition, Vector2D InScale);

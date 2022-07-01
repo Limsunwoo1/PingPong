@@ -25,8 +25,10 @@ protected:
 
 	CTexture*		Texture;
 
-	bool PrevCollision;
-	bool CurCollision;
+	bool			PrevCollision;
+	bool			CurCollision;
+
+	float			Obj_Angle;
 public:
 	CObject();
 	CObject(Vector2D InPosition, Vector2D InScale);
@@ -52,6 +54,9 @@ public:
 
 	OBJ_LAYER GetObjectLayer() const ;
 	void SetObjectLayer(OBJ_LAYER InOBJ_Layer);
+
+	void SetOBJ_Angle();
+	float GetOBJ_Angle() const { return Obj_Angle; };
 
 	unsigned int GetId() const {return ObjectId;}
 };

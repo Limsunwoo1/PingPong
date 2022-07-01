@@ -23,6 +23,7 @@ void CTitleScene::Init()
 	Player->SetObjectLayer(OBJ_LAYER::PLAYER);
 	Player->SetPosition(Vector2D(500, 550));
 	Player->SetTexture(CResourceManager::GetInstance()->FindTexture("PLAYER"));
+	Player->SetOBJ_Angle();
 	AddObject(OBJ_LAYER::PLAYER, Player);
 
 	for (int i = 0; i < 15; ++i)
@@ -74,6 +75,7 @@ void CTitleScene::Init()
 	Bullet->SetTexture(CResourceManager::GetInstance()->FindTexture("BULLET"));
 	AddObject(OBJ_LAYER::BULLET, Bullet);
 	// UI는 충돌체크하면 로직이 꼬일수도 있음 체크해도 UI 끼리만 하도록 주의
+
 	std::vector<OBJ_LAYER> checkLayerList;
 	checkLayerList.push_back(OBJ_LAYER::PLAYER);
 	CheckCollisionLayer[OBJ_LAYER::BULLET] = checkLayerList;
